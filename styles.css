@@ -12,7 +12,7 @@ html, body { height: 100%; }
 html { scroll-behavior: smooth; background: var(--bg); }
 body {
   margin: 0;
-  font-family: "Mozilla Headline", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: "Barlow", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--fg);
   background: var(--bg);
   line-height: 1.5;
@@ -39,7 +39,7 @@ nav ul { list-style: none; display: flex; gap: 18px; padding: 0; margin: 0; }
 nav a { text-decoration: none; color: var(--fg); }
 
 .hero-inner { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px 0; }
-.title { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; margin: 0; }
+.title { font-size: clamp(40px, 7vw, 64px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
 .tagline { font-size: clamp(16px, 2.5vw, 20px); color: var(--muted); margin-top: 10px; }
 
 section { padding: clamp(24px, 6vw, 40px) 0; }
@@ -54,11 +54,12 @@ section h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.12em;
 .card {
   border: none;
   background: rgba(255,255,255,0.04);
-  padding: 18px;
-  border-radius: 10px;
-  transition: transform .4s ease, opacity .4s ease;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 0 0 1px rgba(255,255,255,0.04) inset;
+  transition: transform .4s ease, opacity .4s ease, background-color .3s ease, box-shadow .3s ease;
 }
-.card:hover { transform: translateY(-2px); }
+.card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.06); }
 
 /* Center the Story card content vertically */
 #about .card {
@@ -92,9 +93,10 @@ footer { padding: 40px 0; text-align: center; color: var(--muted); }
 }
 .btn:hover { background: #ffffff; color: #000000; transform: translateY(-1px); }
 
-h1, h2, .brand {
-  font-family: "Mozilla Headline", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-}
+h1, h2, .brand { font-family: "Barlow", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; font-weight: 700; }
+
+/* Monospace utility */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; color: var(--muted); }
 
 /* --- Load sequence animations ---
    Step 1: Titles slide in
@@ -136,6 +138,10 @@ body.texts-in nav ul {
 /* Subtle scroll reveal */
 .reveal { opacity: 0; transform: translateY(14px); will-change: transform, opacity; transition: transform .6s ease, opacity .6s ease; }
 .reveal.in { opacity: 1; transform: none; }
+
+/* Focus and selection polish */
+:focus-visible { outline: 2px solid var(--third); outline-offset: 2px; border-radius: 6px; }
+::selection { background: rgba(114,203,255,0.35); color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -209,12 +215,13 @@ body.texts-in nav ul {
   text-decoration: none;
   color: var(--fg);
   background: rgba(255,255,255,0.03);
-  transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+  transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .social-links a:hover {
   transform: translateY(-1px);
   border-color: var(--third);
   color: var(--third);
+  box-shadow: 0 0 0 3px rgba(114,203,255,0.15);
 }
 .social-links svg { fill: currentColor; display: block; }
 
