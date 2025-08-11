@@ -1,0 +1,221 @@
+:root {
+  --bg: #000000;
+  --fg: #ffffff;
+  /* Third brand color */
+  --third: #72cbff;
+  --muted: #b0b0b0;
+  --border: rgba(255,255,255,0.18);
+  --accent: #ffffff;
+  --maxw: 860px;
+}
+html, body { height: 100%; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  margin: 0;
+  font-family: "Mozilla Headline", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  /* Make header touch the very top while keeping side/bottom padding */
+  padding: 0 clamp(24px, 5vw, 64px) clamp(24px, 5vw, 64px);
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { opacity: .75; transition: opacity .3s ease; }
+
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+header {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.7);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 14px;
+}
+.nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { font-weight: 700; letter-spacing: 0.5px; }
+nav ul { list-style: none; display: flex; gap: 18px; padding: 0; margin: 0; }
+nav a { text-decoration: none; color: var(--fg); }
+
+.hero-inner { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px 0; }
+.title { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; margin: 0; }
+.tagline { font-size: clamp(16px, 2.5vw, 20px); color: var(--muted); margin-top: 10px; }
+
+section { padding: clamp(24px, 6vw, 40px) 0; }
+section h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 18px; }
+.two-col { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 800px) { .two-col { grid-template-columns: 1fr 1fr; gap: 28px; } }
+
+.list { margin: 0; padding-left: 18px; }
+.list li { margin: 6px 0; }
+.meta { color: var(--muted); font-size: 14px; }
+
+.card {
+  border: none;
+  background: rgba(255,255,255,0.04);
+  padding: 18px;
+  border-radius: 10px;
+  transition: transform .4s ease, opacity .4s ease;
+}
+.card:hover { transform: translateY(-2px); }
+
+/* Center the Story card content vertically */
+#about .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Center and increase spacing for Story list items */
+#about .card .list {
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+#about .card .list li {
+  margin: 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+footer { padding: 40px 0; text-align: center; color: var(--muted); }
+
+.btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-decoration: none;
+  color: var(--fg);
+  transition: color .3s ease, background-color .3s ease, transform .3s ease;
+}
+.btn:hover { background: #ffffff; color: #000000; transform: translateY(-1px); }
+
+h1, h2, .brand {
+  font-family: "Mozilla Headline", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+}
+
+/* --- Load sequence animations ---
+   Step 1: Titles slide in
+   Step 2: Then all text fades in
+*/
+
+/* Initial states */
+body.titles-init .brand,
+body.titles-init .title,
+body.titles-init section h2 {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+body.texts-init main,
+body.texts-init footer,
+body.texts-init nav ul {
+  opacity: 0;
+}
+
+/* Transition properties */
+.brand, .title, section h2 { transition: transform .6s ease, opacity .6s ease; }
+main, footer, nav ul { transition: opacity .6s ease; }
+
+/* Active (animated) states */
+body.titles-in .brand,
+body.titles-in .title,
+body.titles-in section h2 {
+  opacity: 1;
+  transform: none;
+}
+
+body.texts-in main,
+body.texts-in footer,
+body.texts-in nav ul {
+  opacity: 1;
+}
+
+/* Subtle scroll reveal */
+.reveal { opacity: 0; transform: translateY(14px); will-change: transform, opacity; transition: transform .6s ease, opacity .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal.in,
+  body.titles-init .brand,
+  body.titles-init .title,
+  body.titles-init section h2,
+  body.texts-init main,
+  body.texts-init footer,
+  body.texts-init nav ul,
+  body.titles-in .brand,
+  body.titles-in .title,
+  body.titles-in section h2,
+  body.texts-in main,
+  body.texts-in footer,
+  body.texts-in nav ul {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Keep Experience list items on a single line (no wrapping) */
+#experience .list li {
+  white-space: nowrap;
+}
+
+/* Remove bullet markers for Experience list */
+#experience .list {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* On wide screens, place Experience content in the right column */
+@media (min-width: 800px) {
+  #experience .two-col > div {
+    grid-column: 2;
+  }
+}
+
+/* Light blue for company names in Experience */
+#experience .list strong {
+  color: var(--third);
+}
+
+/* Utility: apply the third brand color to inline highlights */
+.third {
+  color: var(--third);
+}
+
+/* Increase line spacing for the Fencing paragraph */
+#fencing o {
+  display: block;
+  line-height: 2;
+}
+
+/* Contact: social links styling */
+.caps { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.social-links { list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 10px; max-width: 260px; }
+.social-links li { margin: 0; width: 100%; }
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  height: 44px;
+  width: 100%;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--fg);
+  background: rgba(255,255,255,0.03);
+  transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.social-links a:hover {
+  transform: translateY(-1px);
+  border-color: var(--third);
+  color: var(--third);
+}
+.social-links svg { fill: currentColor; display: block; }
+
+

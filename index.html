@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Samarth Kumbla</title>
+  <meta name="description" content="Official site of Samarth Kumbla — U.S. foil fencer, Computer Science at Columbia University, Co-founder & CTO of Bohr Systems." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="components.js" defer></script>
+</head>
+<body class="titles-init texts-init">
+  <site-header></site-header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <h1 class="title">Samarth Kumbla</h1>
+          <!-- <p class="tagline">San Jose, CA</p> -->
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container two-col">
+        <div>
+          <p>I’ve been building things for as long as I can remember. 
+            <br>
+            <br>
+            <br>
+            At 11, I was building circuits with my dad.
+            <br>
+            <br>
+            <br>
+            At 14, I built my first autonomous robot
+            <br>
+            <br>
+            <br>
+            At 16, I was writing Python scripts to automate my mom’s job.
+            <br>
+            <br>
+            <br>
+            Now I am building to solve real world problems, from drone navigation to investment due diligence automation.</p>
+        </div>
+        <div class="card">
+          <ul class="list">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container two-col">
+        <div>
+          <h2>Experience</h2>
+          <ul class="list">
+            <li>2023 - Software Engineering @ <strong>NASA Ames Research Center</strong></li>
+            <li>2024 - AI Researcher @ <strong>Mosaic AI</strong></li>
+            <li>2025 - Co-Founder & CTO @ <strong>Bohr Systems</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container two-col">
+        <div>
+          <h2>Projects</h2>
+          <ul class="list">
+            <li><strong>Project Name</strong> — brief description or link</li>
+            <li><strong>Project Name</strong> — brief description or link</li>
+          </ul>
+        </div>
+        <div class="card">
+        </div>
+      </div>
+    </section>
+
+    <section id="fencing">
+      <div class="container">
+        <!-- <h2>Fencing</h2> -->
+        <o>
+            At 10, I started fencing, but for years I couldn’t match my older brother’s performance at that age, and many <strong class="third">expected me to fail</strong>. 
+            <br>
+            <br>
+            At 17, I trained every morning before school and every evening after. 
+            <br>
+            <br>
+            That year I made the World Team and won <strong class="third">bronze</strong> and <strong class="third">gold</strong> at my first World Championships. 
+            <br>
+            <br>
+            The next year I again got <strong class="third">bronze</strong> and <strong class="third">gold</strong> at my second World Championships, became <strong class="third">#1 in the world</strong>, and later became a <strong class="third">two-time Ivy League Champion</strong> while at Columbia.
+            <br>
+            <br>
+        </o>
+      </div>
+    </section>
+
+    <section id="contact">
+        <div class="container two-col">
+        <div>
+          <div class="caps">Connect</div>
+          <ul class="social-links">
+            <li>
+              <a href="https://www.linkedin.com/in/samarth-kumbla-77597523b/" target="_blank" rel="noopener noreferrer">
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                  <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.8c0-1.86-.03-4.25-2.59-4.25-2.6 0-3 2.03-3 4.12V24h-5V8z"></path>
+                </svg>
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/smrthkumbla" target="_blank" rel="noopener noreferrer">
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                  <path d="M18.244 2H21.5l-7.5 8.57L22 22h-5.906l-4.62-5.93L5.1 22H1.84l8.06-9.2L2 2h6.094l4.18 5.52L18.244 2zm-1.036 18h2.06L7.878 4h-2.1l11.43 16z"></path>
+                </svg>
+                X
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="caps">Quick links</div>
+          <ul class="list">
+            <li><a href="#about">Story</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#fencing">Fencing</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script>
+    // Loading sequence: titles slide, then text fades
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        body.classList.remove('titles-init', 'texts-init');
+        body.classList.add('titles-in', 'texts-in');
+      } else {
+        requestAnimationFrame(() => {
+          body.classList.add('titles-in');
+          body.classList.remove('titles-init');
+        });
+        const TITLES_DURATION = 600; // ms
+        setTimeout(() => {
+          body.classList.add('texts-in');
+          body.classList.remove('texts-init');
+        }, TITLES_DURATION + 80);
+      }
+
+      // Subtle scroll reveal for sections after load
+      const targets = document.querySelectorAll('section, .card');
+      targets.forEach(el => el.classList.add('reveal'));
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      targets.forEach(el => io.observe(el));
+
+      // Year stamp handled within <site-footer>
+    });
+  </script>
+</body>
+</html>
