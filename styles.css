@@ -33,10 +33,26 @@ header {
   border-bottom: none;
   border-radius: 14px;
 }
-.nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav { display: flex; align-items: center; justify-content: center; height: 64px; }
 .brand { font-weight: 700; letter-spacing: 0.5px; }
 nav ul { list-style: none; display: flex; gap: 18px; padding: 0; margin: 0; }
-nav a { text-decoration: none; color: var(--fg); }
+nav a {
+  text-decoration: none;
+  color: var(--fg);
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+nav a:hover,
+nav a:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--third);
+  color: var(--third);
+  background: rgba(114,203,255,0.12);
+  box-shadow: 0 0 0 3px rgba(114,203,255,0.18);
+}
 
 .hero-inner { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px 0; }
 .title { font-size: clamp(40px, 7vw, 64px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; }

@@ -1,25 +1,25 @@
 class SiteHeader extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = `
-      <header>
-        <div class="container nav">
-          <div class="brand">SAMARTH KUMBLA</div>
-          <nav aria-label="Primary">
-            <ul>
-              <li><a href="#about">About</a></li>
-              <li><a href="#fencing">Fencing</a></li>
-              <li><a href="#experience">Experience</a></li>
-              <!-- <li><a href="#collegiate">Collegiate</a></li> -->
-              <!-- <li><a href="#education">Education</a></li> -->
-              <!-- <li><a href="#affiliations">Affiliations</a></li> -->
-              <!-- <li><a href="#bohr">Bohr Systems</a></li> -->
-              <li><a href="todo.html">Plans</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-    `;
+  async connectedCallback() {
+    try {
+      const response = await fetch('header.html');
+      const html = await response.text();
+      this.innerHTML = html;
+    } catch (error) {
+      // Fallback minimal header if fetching the external file fails (e.g., opened via file://)
+      this.innerHTML = `
+        <header>
+          <div class="container nav">
+            <nav aria-label="Primary">
+              <ul>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="todo.html#projects">Future</a></li>
+                <li><a href="index.html#contact">Socials</a></li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+      `;
+    }
   }
 }
 
