@@ -70,11 +70,84 @@ function renderDashboard(metrics) {
   ];
   kpis.forEach(el => metricsEl.appendChild(el));
 
-  const projects = (metrics.projects || []).slice().sort((a, b) => (b.lastCommitDate || '').localeCompare(a.lastCommitDate || ''));
-  projects.forEach(p => projectsEl.appendChild(createProjectCard(p)));
+  // Add project controls
+  const projectControls = document.createElement('div');
+  projectControls.className = 'project-controls';
+  projectControls.innerHTML = `
+    <div class="control-group">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select">
+        <option value="date">Date (Newest)</option>
+        <option value="name">Name</option>
+        <option value="lines">Lines of Code</option>
+        <option value="duration">Duration</option>
+        <option value="commits">Commits</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="filter-select">Filter by:</label>
+      <select id="filter-select">
+        <option value="all">All Projects</option>
+        <option value="recent">Recent (Last 30 days)</option>
+        <option value="large">Large Projects (>1000 LOC)</option>
+        <option value="quick">Quick Projects (<1 day)</option>
+      </select>
+    </div>
+  `;
+  projectsEl.parentNode.insertBefore(projectControls, projectsEl);
 
-  // Initialize scroll reveal for dashboard elements
-  initializeScrollReveal();
+  const projects = (metrics.projects || []).slice();
+  let filteredProjects = [...projects];
+  
+  function renderProjects() {
+    projectsEl.innerHTML = '';
+    filteredProjects.forEach(p => projectsEl.appendChild(createProjectCard(p)));
+    initializeScrollReveal();
+  }
+
+  // Sorting functionality
+  document.getElementById('sort-select').addEventListener('change', (e) => {
+    const sortBy = e.target.value;
+    filteredProjects.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return (a.name || '').localeCompare(b.name || '');
+        case 'lines':
+          return (b.totalLinesOfCode || 0) - (a.totalLinesOfCode || 0);
+        case 'duration':
+          return (b.durationMs || 0) - (a.durationMs || 0);
+        case 'commits':
+          return (b.commitCount || 0) - (a.commitCount || 0);
+        default: // date
+          return (b.lastCommitDate || '').localeCompare(a.lastCommitDate || '');
+      }
+    });
+    renderProjects();
+  });
+
+  // Filtering functionality
+  document.getElementById('filter-select').addEventListener('change', (e) => {
+    const filterBy = e.target.value;
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    filteredProjects = projects.filter(p => {
+      switch (filterBy) {
+        case 'recent':
+          return p.lastCommitDate && new Date(p.lastCommitDate) > thirtyDaysAgo;
+        case 'large':
+          return p.totalLinesOfCode && p.totalLinesOfCode > 1000;
+        case 'quick':
+          return p.durationMs && p.durationMs < 24 * 60 * 60 * 1000; // less than 1 day
+        default:
+          return true;
+      }
+    });
+    renderProjects();
+  });
+
+  // Initial render
+  renderProjects();
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
