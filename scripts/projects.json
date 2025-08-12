@@ -1,0 +1,13 @@
+{
+  "projects": [
+    {
+      "name": "This Website",
+      "path": ".",
+      "description": "Personal site and dashboard",
+      "url": "index.html",
+      "language": "HTML/CSS/JS"
+    }
+  ]
+}
+
+

@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2025-08-11T07:26:58.238Z",
+  "projects": [
+    {
+      "name": "This Website",
+      "path": ".",
+      "description": "Personal site and dashboard",
+      "url": "index.html",
+      "language": "HTML/CSS/JS",
+      "firstCommitDate": "2025-08-10T23:46:50-07:00",
+      "lastCommitDate": "2025-08-11T00:08:44-07:00",
+      "durationMs": 1314000,
+      "activeDays": 2,
+      "totalHours": 5,
+      "commitCount": 5,
+      "totalLinesOfCode": 801
+    }
+  ],
+  "lastCompletedProject": {
+    "name": "This Website",
+    "path": ".",
+    "description": "Personal site and dashboard",
+    "url": "index.html",
+    "language": "HTML/CSS/JS",
+    "firstCommitDate": "2025-08-10T23:46:50-07:00",
+    "lastCommitDate": "2025-08-11T00:08:44-07:00",
+    "durationMs": 1314000,
+    "activeDays": 2,
+    "totalHours": 5,
+    "commitCount": 5,
+    "totalLinesOfCode": 801
+  },
+  "mostLinesOfCode": {
+    "name": "This Website",
+    "path": ".",
+    "description": "Personal site and dashboard",
+    "url": "index.html",
+    "language": "HTML/CSS/JS",
+    "firstCommitDate": "2025-08-10T23:46:50-07:00",
+    "lastCommitDate": "2025-08-11T00:08:44-07:00",
+    "durationMs": 1314000,
+    "activeDays": 2,
+    "totalHours": 5,
+    "commitCount": 5,
+    "totalLinesOfCode": 801
+  },
+  "longestDuration": {
+    "name": "This Website",
+    "path": ".",
+    "description": "Personal site and dashboard",
+    "url": "index.html",
+    "language": "HTML/CSS/JS",
+    "firstCommitDate": "2025-08-10T23:46:50-07:00",
+    "lastCommitDate": "2025-08-11T00:08:44-07:00",
+    "durationMs": 1314000,
+    "activeDays": 2,
+    "totalHours": 5,
+    "commitCount": 5,
+    "totalLinesOfCode": 801
+  },
+  "totalHoursAllProjects": 5,
+  "totalCommitsAllProjects": 5,
+  "totalActiveDays": 2,
+  "averageDurationMs": 1314000
+}

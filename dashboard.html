@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Dashboard — Samarth Kumbla</title>
+  <meta name="description" content="Project dashboard with Git-derived metrics." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="components.js" defer></script>
+  <script src="dashboard.js" defer></script>
+  <style>
+    .dashboard-hero { padding-top: 24px; }
+  </style>
+</head>
+<body class="titles-init texts-init dashboard-page">
+  <site-header></site-header>
+
+  <div class="dashboard-container">
+    <!-- Full height sidebar -->
+    <aside class="full-height-sidebar">
+      <div class="sidebar-content">
+        <div class="caps">Key metrics</div>
+        <div id="metrics"></div>
+      </div>
+    </aside>
+    
+    <!-- Main content area with header and projects -->
+    <div class="main-content-area">
+      <main>
+        <section class="hero dashboard-hero">
+          <div class="container hero-inner">
+            <div>
+              <div class="caps">Projects dashboard</div>
+              <p class="meta">Live insights computed from Git history</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="projects-column">
+              <div class="caps">Projects</div>
+              <div id="projects" class="cards-grid"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+      
+      <site-footer></site-footer>
+    </div>
+  </div>
+  <script>
+    // Match index.html load sequence so content isn't hidden
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        body.classList.remove('titles-init', 'texts-init');
+        body.classList.add('titles-in', 'texts-in');
+      } else {
+        requestAnimationFrame(() => {
+          body.classList.add('titles-in');
+          body.classList.remove('titles-init');
+        });
+        const TITLES_DURATION = 600;
+        setTimeout(() => {
+          body.classList.add('texts-in');
+          body.classList.remove('texts-init');
+        }, TITLES_DURATION + 80);
+      }
+    });
+  </script>
+</body>
+</html>
+
+

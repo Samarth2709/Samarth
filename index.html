@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="components.js" defer></script>
 </head>
-<body class="titles-init texts-init">
+  <body class="titles-init texts-init">
+  <!-- Moving image background -->
+  <div class="bg-scroller" aria-hidden="true" id="bg-scroller"></div>
   <site-header></site-header>
 
   <main>
@@ -19,7 +21,7 @@
       <div class="container hero-inner">
         <div>
           <h1 class="title">Samarth Kumbla</h1>
-          <!-- <p class="tagline">San Jose, CA</p> -->
+
         </div>
       </div>
     </section>
@@ -75,7 +77,6 @@
 
     <section id="fencing">
       <div class="container">
-        <!-- <h2>Fencing</h2> -->
         <o>
             At 10, I started fencing, but for years I couldn’t match my older brother’s performance at that age, and many <strong class="third">expected me to fail</strong>. 
             <br>
@@ -132,42 +133,61 @@
   <site-footer></site-footer>
 
   <script>
-    // Loading sequence: titles slide, then text fades
     document.addEventListener('DOMContentLoaded', () => {
-      const body = document.body;
+      // Initialize shared animations
+      initializePageAnimations();
 
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced) {
-        body.classList.remove('titles-init', 'texts-init');
-        body.classList.add('titles-in', 'texts-in');
-      } else {
-        requestAnimationFrame(() => {
-          body.classList.add('titles-in');
-          body.classList.remove('titles-init');
-        });
-        const TITLES_DURATION = 600; // ms
-        setTimeout(() => {
-          body.classList.add('texts-in');
-          body.classList.remove('texts-init');
-        }, TITLES_DURATION + 80);
-      }
+      // Build background scroller from images manifest
+      const scroller = document.getElementById('bg-scroller');
+      const rows = [
+        { side: 'left',  duration: 55, delay: -6 },
+        { side: 'right', duration: 60, delay: -12 },
+        { side: 'left',  duration: 52, delay: -18 },
+        { side: 'right', duration: 58, delay: -24 },
+        { side: 'left',  duration: 62, delay: -30 },
+        { side: 'right', duration: 54, delay: -36 },
+      ];
+      fetch('data/images.json')
+        .then(r => r.json())
+        .then((images) => {
+          if (!Array.isArray(images) || images.length === 0) return;
+          // Build two identical groups for seamless looping
+          rows.forEach(({ side, duration, delay }) => {
+            const row = document.createElement('div');
+            row.className = `bg-row ${side}`;
+            const track = document.createElement('div');
+            track.className = 'bg-track';
+            track.style.animationDuration = `${duration}s`;
+            track.style.animationDelay = `${delay}s`;
 
-      // Subtle scroll reveal for sections after load
-      const targets = document.querySelectorAll('section, .card');
-      targets.forEach(el => el.classList.add('reveal'));
+            const groupA = document.createElement('div');
+            groupA.className = 'bg-group';
+            const groupB = document.createElement('div');
+            groupB.className = 'bg-group';
 
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
+            images.forEach((src) => {
+              const img = document.createElement('img');
+              img.src = src;
+              img.alt = '';
+              groupA.appendChild(img);
+            });
+            images.forEach((src) => {
+              const img = document.createElement('img');
+              img.src = src;
+              img.alt = '';
+              groupB.appendChild(img);
+            });
 
-      targets.forEach(el => io.observe(el));
+            track.appendChild(groupA);
+            track.appendChild(groupB);
+            row.appendChild(track);
+            scroller.appendChild(row);
+          });
+        })
+        .catch(() => {/* no-op */});
 
-      // Year stamp handled within <site-footer>
+      // Initialize scroll reveal
+      initializeScrollReveal();
     });
   </script>
 </body>
