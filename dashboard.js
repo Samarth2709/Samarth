@@ -99,6 +99,7 @@ function formatDuration(milliseconds) {
 function createProjectCard(p) {
   const card = document.createElement('div');
   card.className = 'card project-card reveal';
+  card.dataset.projectId = p.name; // Add identifier for expanding
   
   // Convert API time format (e.g., "14400m") to hours
   const timeSpentHours = p.time_spent ? parseFloat(p.time_spent.replace('m', '')) / 60 : null;
@@ -107,19 +108,135 @@ function createProjectCard(p) {
   // Parse last_finished date
   const lastFinished = p.last_finished ? new Date(p.last_finished).toLocaleDateString() : '—';
   
+  // Store all project data for expansion
+  card._projectData = p;
+  card._timeDisplay = timeDisplay;
+  card._lastFinished = lastFinished;
+  
   card.innerHTML = `
     <div class="row">
       <div class="name">${p.name}</div>
       <span class="chip">${p.primary_language || 'Unknown'}</span>
     </div>
     <div style="height:8px"></div>
-    <div class="mono-small">LOC: ${p.loc?.toLocaleString?.() ?? '—'} | Commits: ${p.commits ?? '—'}</div>
-    <div class="mono-small">Active days: ${p.active_days ?? '—'} | Code churn: ${p.code_churn?.toLocaleString?.() ?? '—'}</div>
-    <div class="mono-small">Time span: ${timeDisplay} | Size: ${p.repository_size_kb ?? '—'} KB</div>
-    <div class="mono-small">Last updated: ${lastFinished}</div>
+    <div class="project-summary mono-small">
+      <div>LOC: ${p.loc?.toLocaleString?.() ?? '—'} | Commits: ${p.commits ?? '—'}</div>
+      <div class="expand-hint" style="color: var(--muted); font-size: 11px; margin-top: 4px;">Click to see all stats</div>
+    </div>
   `;
+  
+  // Add click handler for modal expansion
+  card.addEventListener('click', (e) => openProjectModal(card, p, timeDisplay, lastFinished));
+  
   return card;
 }
+
+// Global modal state
+let currentModal = null;
+
+function openProjectModal(originalCard, projectData, timeDisplay, lastFinished) {
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  
+  // Create expanded card clone
+  const modalCard = document.createElement('div');
+  modalCard.className = 'card project-card modal-expanded';
+  
+  // Enhanced stats display
+  modalCard.innerHTML = `
+    <div class="row">
+      <div class="name" style="font-size: 24px; margin-bottom: 8px;">${projectData.name}</div>
+      <span class="chip" style="font-size: 14px;">${projectData.primary_language || 'Unknown'}</span>
+    </div>
+    
+    <div class="project-details-expanded">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Lines of Code</div>
+          <div class="stat-value">${projectData.loc?.toLocaleString?.() ?? '—'}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Commits</div>
+          <div class="stat-value">${projectData.commits ?? '—'}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Active Days</div>
+          <div class="stat-value">${projectData.active_days ?? '—'}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Code Churn</div>
+          <div class="stat-value">${projectData.code_churn?.toLocaleString?.() ?? '—'}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Time Spent</div>
+          <div class="stat-value">${timeDisplay}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Repository Size</div>
+          <div class="stat-value">${projectData.repository_size_kb ?? '—'} KB</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Last Updated</div>
+          <div class="stat-value">${lastFinished}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">First Commit</div>
+          <div class="stat-value">${projectData.first_commit ? new Date(projectData.first_commit).toLocaleDateString() : '—'}</div>
+        </div>
+      </div>
+      
+      <div class="close-hint">
+        Click anywhere outside or press ESC to close
+      </div>
+    </div>
+  `;
+  
+  overlay.appendChild(modalCard);
+  document.body.appendChild(overlay);
+  
+  // Add active class to trigger animation
+  requestAnimationFrame(() => {
+    overlay.classList.add('active');
+    document.getElementById('projects').classList.add('modal-active');
+  });
+  
+  // Set global modal reference
+  currentModal = overlay;
+  
+  // Close modal handlers
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      closeProjectModal();
+    }
+  });
+  
+  // Prevent card click from bubbling to overlay
+  modalCard.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
+
+function closeProjectModal() {
+  if (!currentModal) return;
+  
+  currentModal.classList.remove('active');
+  document.getElementById('projects').classList.remove('modal-active');
+  
+  setTimeout(() => {
+    if (currentModal && currentModal.parentNode) {
+      currentModal.parentNode.removeChild(currentModal);
+    }
+    currentModal = null;
+  }, 300);
+}
+
+// Add ESC key listener
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && currentModal) {
+    closeProjectModal();
+  }
+});
 
 function renderMetrics(metrics) {
   const metricsEl = document.getElementById('metrics');
