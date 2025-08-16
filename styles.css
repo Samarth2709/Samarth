@@ -987,60 +987,7 @@ body.dashboard-page section:not(.hero) {
   padding-top: 4px; /* Further reduced top padding for sections after hero */
 }
 
-/* Moving background of scrolling image rows */
-.bg-scroller {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  opacity: 0.18; /* keep content readable */
-}
-/* Ensure foreground content sits above */
-main, footer { position: relative; z-index: 1; }
 
-.bg-row { position: relative; overflow: hidden; }
-.bg-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  display: flex;
-  width: max-content;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.bg-group { display: flex; }
-.bg-row img {
-  height: 100%;
-  width: auto;
-  object-fit: cover;
-  flex: 0 0 auto;
-  filter: grayscale(10%) contrast(105%);
-}
-
-.bg-row.left .bg-track { animation-name: scroll-left; }
-.bg-row.right .bg-track { animation-name: scroll-right; }
-
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-@keyframes scroll-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-@media (max-width: 700px) {
-  .bg-scroller { grid-template-rows: repeat(5, 1fr); }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .bg-track { animation: none !important; }
-}
 
 /* Dashboard-specific styles */
 .loading, .error {
@@ -1108,5 +1055,39 @@ main, footer { position: relative; z-index: 1; }
 .control-group select:focus {
   outline: none;
   border-color: var(--third);
+}
+
+/* Notification Toast Styles */
+.notification-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(114, 203, 255, 0.9);
+  color: var(--bg);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.notification-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive notification positioning */
+@media (max-width: 600px) {
+  .notification-toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    text-align: center;
+  }
 }
 

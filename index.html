@@ -12,8 +12,7 @@
   <script src="components.js" defer></script>
 </head>
   <body class="titles-init texts-init">
-  <!-- Moving image background -->
-  <div class="bg-scroller" aria-hidden="true" id="bg-scroller"></div>
+
   <site-header></site-header>
 
   <main>
@@ -271,7 +270,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://github.com/samarthkumbla" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/Samarth2709" target="_blank" rel="noopener noreferrer">
                   <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" focusable="false">
                     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path>
                   </svg>
@@ -280,7 +279,7 @@
                 </a>
               </li>
               <li>
-                <a href="mailto:samarth@bohrsystems.com" target="_blank" rel="noopener noreferrer">
+                <a href="#" id="email-link" onclick="copyEmailToClipboard(event)">
                   <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" focusable="false">
                     <path d="M0 3v18h24V3H0zm21.518 2L12 12.713 2.482 5h19.036zM2 19V7.183l10 8.104 10-8.104V19H2z"></path>
                   </svg>
@@ -313,60 +312,9 @@
       // Initialize shared animations
       initializePageAnimations();
 
-      // Build background scroller from images manifest
-      const scroller = document.getElementById('bg-scroller');
-      const rows = [
-        { side: 'left',  duration: 55, delay: -6 },
-        { side: 'right', duration: 60, delay: -12 },
-        { side: 'left',  duration: 52, delay: -18 },
-        { side: 'right', duration: 58, delay: -24 },
-        { side: 'left',  duration: 62, delay: -30 },
-        { side: 'right', duration: 54, delay: -36 },
-      ];
-      fetch('data/images.json')
-        .then(r => r.json())
-        .then((images) => {
-          if (!Array.isArray(images) || images.length === 0) return;
-          // Build two identical groups for seamless looping
-          rows.forEach(({ side, duration, delay }) => {
-            const row = document.createElement('div');
-            row.className = `bg-row ${side}`;
-            const track = document.createElement('div');
-            track.className = 'bg-track';
-            track.style.animationDuration = `${duration}s`;
-            track.style.animationDelay = `${delay}s`;
-
-            const groupA = document.createElement('div');
-            groupA.className = 'bg-group';
-            const groupB = document.createElement('div');
-            groupB.className = 'bg-group';
-
-            images.forEach((src) => {
-              const img = document.createElement('img');
-              img.src = src;
-              img.alt = '';
-              groupA.appendChild(img);
-            });
-            images.forEach((src) => {
-              const img = document.createElement('img');
-              img.src = src;
-              img.alt = '';
-              groupB.appendChild(img);
-            });
-
-            track.appendChild(groupA);
-            track.appendChild(groupB);
-            row.appendChild(track);
-            scroller.appendChild(row);
-          });
-        })
-        .catch(() => {/* no-op */});
-
       // Initialize scroll reveal
       initializeScrollReveal();
-
-
-
+      
       // Update visitor count
       updateVisitorCount();
     });
@@ -390,6 +338,77 @@
           <span style="color: var(--muted);">Updated: ${lastUpdated}</span>
         `;
       }
+    }
+
+    // Copy email to clipboard functionality
+    function copyEmailToClipboard(event) {
+      event.preventDefault();
+      const email = 'samarth.kumbla@gmail.com';
+      
+      // Use the Clipboard API if available
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(() => {
+          showNotification('Copied email to clipboard');
+        }).catch(() => {
+          // Fallback for older browsers
+          fallbackCopyToClipboard(email);
+        });
+      } else {
+        // Fallback for older browsers
+        fallbackCopyToClipboard(email);
+      }
+    }
+
+    // Fallback copy method for older browsers
+    function fallbackCopyToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        showNotification('Copied email to clipboard');
+      } catch (err) {
+        console.error('Failed to copy email to clipboard', err);
+        showNotification('Failed to copy email');
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    // Show notification toast
+    function showNotification(message) {
+      // Remove any existing notification
+      const existingNotification = document.querySelector('.notification-toast');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = 'notification-toast';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      // Show notification with animation
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 10);
+
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
     }
   </script>
 </body>
