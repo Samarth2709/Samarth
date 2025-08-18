@@ -391,6 +391,7 @@ section h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.12em;
 }
 
 /* Blog Section */
+/*
 .blog-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -463,6 +464,7 @@ section h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 0.12em;
   color: var(--fg);
   text-decoration: underline;
 }
+*/
 
 /* Resume Section */
 .resume-grid {
