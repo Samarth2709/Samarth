@@ -14,7 +14,7 @@ class SiteHeader extends HTMLElement {
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="todo.html#projects">Future</a></li>
+                <!-- <li><a href="todo.html#projects">Future</a></li> -->
                 <li><a href="index.html#contact">Socials</a></li>
               </ul>
             </nav>
