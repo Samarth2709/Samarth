@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://young-garden-29023-d9a0945982b2.herokuapp.com';
+const API_BASE_URL = 'https://projecttracker-production.up.railway.app';
 
 async function fetchProjects() {
   try {
