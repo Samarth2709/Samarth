@@ -32,6 +32,7 @@ class Config:
         'http://127.0.0.1:3001',
         'https://samarthkumbla.com',
         'https://www.samarthkumbla.com',
-        'https://nextjs-portfolio-psi-nine-50.vercel.app'
+        'https://nextjs-portfolio-psi-nine-50.vercel.app',
+        'https://frontend-dun-three-35.vercel.app'
     ]
 
