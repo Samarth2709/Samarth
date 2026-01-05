@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -24,7 +24,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: "Barlow", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   color: #ffffff !important;
   background: #000000 !important;
   line-height: 1.5;
@@ -127,7 +127,7 @@ footer {
 .btn:hover { background: #ffffff; color: #000000; transform: translateY(-1px); }
 
 h1, h2, .brand { 
-  font-family: "Barlow", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; 
+  font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
   font-weight: 700;
   color: #ffffff;
 }
@@ -759,5 +759,2014 @@ body.texts-in nav ul {
   
   .dashboard-container {
     grid-template-columns: 220px 1fr;
+  }
+}
+
+/* ==========================================
+   WHOOP DASHBOARD STYLES
+   ========================================== */
+
+/* Whoop color palette */
+:root {
+  --whoop-green: #00d084;
+  --whoop-yellow: #ffb800;
+  --whoop-red: #ff4757;
+  --whoop-blue: #00a8ff;
+  --whoop-purple: #9c88ff;
+  --whoop-deep: #5f27cd;
+  --whoop-rem: #00cec9;
+  --whoop-light: #74b9ff;
+  --whoop-awake: #636e72;
+}
+
+/* Main dashboard container */
+.whoop-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* Loading state */
+.whoop-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--muted);
+}
+
+.whoop-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--third);
+  border-radius: 50%;
+  animation: whoop-spin 1s linear infinite;
+}
+
+@keyframes whoop-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Not configured state */
+.whoop-not-configured {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--muted);
+}
+
+.whoop-warning-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.whoop-not-configured h2 {
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+
+.whoop-setup-link {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: var(--third);
+  color: var(--bg);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.whoop-setup-link:hover {
+  opacity: 0.85;
+}
+
+/* Hero section */
+.whoop-hero {
+  padding: 40px 0;
+  margin-bottom: 20px;
+}
+
+.whoop-hero-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+
+.whoop-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.whoop-readiness-title {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0;
+}
+
+.whoop-readiness-score {
+  font-size: clamp(64px, 12vw, 96px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.whoop-readiness-label {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.whoop-readiness-description {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.whoop-refresh-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--whoop-blue), var(--whoop-purple));
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.whoop-refresh-btn:hover {
+  transform: translateY(-2px);
+}
+
+.whoop-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Recovery Ring */
+.whoop-ring-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.whoop-ring {
+  width: 100%;
+  height: 100%;
+}
+
+.whoop-ring-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.whoop-ring-progress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out, stroke 0.3s ease;
+}
+
+.whoop-ring-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.whoop-ring-value {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.whoop-ring-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* Sections */
+.whoop-section {
+  margin-bottom: 40px;
+}
+
+.whoop-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.whoop-section-date {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Metrics grid - primary */
+.whoop-metrics-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.whoop-metrics-primary {
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+}
+
+@media (max-width: 1000px) {
+  .whoop-metrics-primary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Metric panels */
+.whoop-metric-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.whoop-metric-panel:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.whoop-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.whoop-panel-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.whoop-panel-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.whoop-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Stat cards */
+.whoop-stat-card {
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.whoop-stat-large {
+  padding: 14px 16px;
+}
+
+.whoop-stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+.whoop-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.whoop-stat-unit {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+.whoop-stat-subtitle {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Recovery stats grid */
+.whoop-recovery-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: auto;
+}
+
+/* Sleep panel */
+.whoop-sleep-time {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.whoop-sleep-overview {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.whoop-sleep-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  min-width: 80px;
+}
+
+.whoop-sleep-hours {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--whoop-blue);
+  line-height: 1;
+}
+
+.whoop-sleep-hours-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.whoop-sleep-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Sleep stages bar */
+.whoop-sleep-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.whoop-stages-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.whoop-stage {
+  height: 100%;
+  min-width: 2px;
+  transition: width 0.5s ease;
+}
+
+.whoop-stage-deep {
+  background: var(--whoop-deep);
+}
+
+.whoop-stage-rem {
+  background: var(--whoop-rem);
+}
+
+.whoop-stage-light {
+  background: var(--whoop-light);
+}
+
+.whoop-stage-awake {
+  background: var(--whoop-awake);
+}
+
+.whoop-stages-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.whoop-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.whoop-legend-dot {
+  width: 6px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.whoop-sleep-stages-empty {
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Strain gauge */
+.whoop-strain-gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.whoop-strain-bar-container {
+  position: relative;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.whoop-strain-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.8s ease-out;
+}
+
+.whoop-strain-markers {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.whoop-strain-markers span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.whoop-strain-value {
+  font-size: 42px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.whoop-strain-max {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.whoop-strain-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: auto;
+}
+
+/* Trend indicator */
+.whoop-trend {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.whoop-trend-up {
+  color: var(--whoop-green);
+  background: rgba(0, 208, 132, 0.15);
+}
+
+.whoop-trend-down {
+  color: var(--whoop-red);
+  background: rgba(255, 71, 87, 0.15);
+}
+
+/* Insights grid */
+.whoop-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1000px) {
+  .whoop-insights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .whoop-insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whoop-insight-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  align-items: center;
+}
+
+.whoop-insight-card:hover {
+  transform: translateY(-2px);
+}
+
+.whoop-insight-icon {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.whoop-insight-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.whoop-insight-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.whoop-insight-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--third);
+  line-height: 1;
+}
+
+.whoop-insight-description {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* Recovery dots */
+.whoop-recovery-dots {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.whoop-day-dot {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whoop-day-dot-inner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.whoop-day-dot:hover .whoop-day-dot-inner {
+  transform: scale(1.3);
+}
+
+/* Averages grid */
+.whoop-averages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .whoop-averages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .whoop-averages-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.whoop-average-card {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.whoop-average-card:hover {
+  transform: translateY(-2px);
+}
+
+.whoop-average-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.whoop-average-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--third);
+  line-height: 1;
+}
+
+.whoop-average-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.whoop-average-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* Workouts list */
+.whoop-workouts-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .whoop-workouts-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .whoop-workouts-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whoop-workout-card {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.whoop-workout-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.whoop-workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.whoop-workout-sport {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.whoop-workout-strain {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.whoop-workout-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* No data state */
+.whoop-no-data {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+}
+
+/* Error state */
+.whoop-error {
+  padding: 20px;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.whoop-error p {
+  color: var(--whoop-red);
+  margin-bottom: 12px;
+}
+
+.whoop-retry-btn {
+  background: var(--whoop-red);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.whoop-retry-btn:hover {
+  opacity: 0.85;
+}
+
+/* Responsive adjustments for hero */
+@media (max-width: 700px) {
+  .whoop-hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .whoop-hero-left {
+    align-items: center;
+  }
+  
+  .whoop-hero-right {
+    order: -1;
+  }
+  
+  .whoop-readiness-title {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .whoop-readiness-description {
+    text-align: center;
+  }
+  
+  .whoop-refresh-btn {
+    align-self: center;
+  }
+  
+  .whoop-ring-container {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+  }
+  
+  .whoop-ring-value {
+    font-size: 32px;
+  }
+}
+
+/* ==========================================
+   WHOOP AUTH ERROR STYLES
+   ========================================== */
+
+.whoop-auth-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.whoop-auth-error-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.whoop-auth-error h2 {
+  color: var(--fg);
+  margin: 0 0 12px;
+  font-size: 28px;
+}
+
+.whoop-auth-error-description {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.whoop-auth-details {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: left;
+  width: 100%;
+}
+
+.whoop-auth-details p {
+  color: var(--muted);
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.whoop-auth-details code {
+  display: block;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  color: var(--third);
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.whoop-auth-details ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.whoop-auth-details ol li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Auth Status Indicator */
+.whoop-auth-status {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.whoop-auth-status-header {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.whoop-auth-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 500px) {
+  .whoop-auth-status-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whoop-auth-status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+}
+
+.whoop-auth-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.whoop-auth-status-item.success .whoop-auth-status-indicator {
+  background: var(--whoop-green);
+  box-shadow: 0 0 8px rgba(0, 208, 132, 0.5);
+}
+
+.whoop-auth-status-item.warning .whoop-auth-status-indicator {
+  background: var(--whoop-yellow);
+  box-shadow: 0 0 8px rgba(255, 184, 0, 0.5);
+}
+
+.whoop-auth-status-item.error .whoop-auth-status-indicator {
+  background: var(--whoop-red);
+  box-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
+}
+
+.whoop-auth-status-item.success {
+  color: var(--whoop-green);
+}
+
+.whoop-auth-status-item.warning {
+  color: var(--whoop-yellow);
+}
+
+.whoop-auth-status-item.error {
+  color: var(--whoop-red);
+}
+
+/* Auth Action Buttons */
+.whoop-auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.whoop-auth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.whoop-auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.whoop-auth-btn-primary {
+  background: linear-gradient(135deg, var(--whoop-blue), var(--whoop-purple));
+  color: #fff;
+}
+
+.whoop-auth-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 255, 0.3);
+}
+
+.whoop-auth-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--fg);
+  border: 1px solid var(--border);
+}
+
+.whoop-auth-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--third);
+}
+
+.whoop-auth-btn-link {
+  background: transparent;
+  color: var(--third);
+  border: 1px solid var(--third);
+}
+
+.whoop-auth-btn-link:hover {
+  background: rgba(114, 203, 255, 0.1);
+}
+
+/* ==========================================
+   WHOOP CHARTS & INTERACTIVE PANELS
+   ========================================== */
+
+/* Panel Overlay */
+.whoop-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.whoop-panel-content {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Detail Panel */
+.whoop-detail-panel {
+  background: linear-gradient(145deg, rgba(30, 30, 35, 0.98), rgba(20, 20, 25, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.whoop-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.whoop-detail-header h2 {
+  margin: 0;
+  font-size: 26px;
+  color: var(--fg);
+  font-weight: 700;
+}
+
+.whoop-detail-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.whoop-detail-close:hover {
+  background: rgba(255, 71, 87, 0.2);
+  border-color: rgba(255, 71, 87, 0.4);
+  color: #ff4757;
+}
+
+/* Chart Sections */
+.whoop-chart-section {
+  margin-bottom: 28px;
+}
+
+.whoop-chart-section h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.whoop-chart-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px 8px 8px 0;
+}
+
+.whoop-chart-legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.whoop-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ==========================================
+   SLEEP STAGES INTERACTIVE LEGEND
+   ========================================== */
+
+.whoop-stages-section {
+  margin-top: 24px;
+}
+
+.whoop-chart-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0 16px 0;
+}
+
+.whoop-stages-chart-container {
+  margin-bottom: 20px;
+}
+
+.whoop-stages-legend {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .whoop-stages-legend {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.whoop-stage-legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+  color: var(--fg);
+}
+
+.whoop-stage-legend-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.whoop-stage-legend-item.active {
+  transform: scale(1.02);
+}
+
+.whoop-stage-legend-item > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.whoop-stage-legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.whoop-stage-legend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.whoop-stage-legend-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.whoop-stage-legend-duration {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1;
+}
+
+.whoop-stage-legend-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+
+.whoop-stage-legend-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.whoop-stage-legend-pct {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--third);
+}
+
+/* ==========================================
+   SHOW MORE BUTTON
+   ========================================== */
+
+.whoop-show-more-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  margin-top: 16px;
+  background: linear-gradient(135deg, rgba(114, 203, 255, 0.1), rgba(114, 203, 255, 0.05));
+  border: 1px solid rgba(114, 203, 255, 0.3);
+  border-radius: 12px;
+  color: var(--third);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.whoop-show-more-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(114, 203, 255, 0.2), rgba(114, 203, 255, 0.1));
+  border-color: var(--third);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(114, 203, 255, 0.2);
+}
+
+.whoop-show-more-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.whoop-show-more-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.whoop-show-more-btn.no-more-data {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  cursor: default;
+}
+
+.whoop-show-more-btn.no-more-data::before {
+  content: '✓ ';
+}
+
+/* Detail List */
+.whoop-detail-list {
+  margin-top: 24px;
+}
+
+.whoop-detail-list h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.whoop-detail-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: background 0.2s ease;
+}
+
+.whoop-detail-list-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.whoop-detail-list-date {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.whoop-detail-list-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.whoop-detail-stat {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Clickable Panels */
+.whoop-panel-clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.whoop-panel-clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.whoop-panel-clickable::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+}
+
+.whoop-panel-clickable:hover::after {
+  opacity: 1;
+}
+
+.whoop-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.whoop-expand-hint {
+  font-size: 12px;
+  color: var(--third);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+}
+
+.whoop-panel-clickable:hover .whoop-expand-hint {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Main Stat with Sparkline */
+.whoop-panel-main-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.whoop-main-value {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.whoop-mini-sparkline {
+  width: 100px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+/* Section Subtitle */
+.whoop-section-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 16px;
+}
+
+/* 7-Day Trends Grid */
+.whoop-trends-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .whoop-trends-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .whoop-trends-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whoop-trend-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.whoop-trend-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.whoop-trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.whoop-trend-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.whoop-trend-avg {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.whoop-trend-chart {
+  flex: 1;
+  min-height: 60px;
+}
+
+/* ==========================================
+   DETAILED TREND CHARTS
+   ========================================== */
+
+.whoop-trends-grid-detailed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .whoop-trends-grid-detailed {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whoop-trend-card-detailed {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.whoop-trend-card-detailed:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.whoop-trend-header-detailed {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.whoop-trend-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.whoop-trend-title-group .whoop-trend-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.whoop-trend-unit {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.whoop-trend-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.whoop-trend-current {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.whoop-trend-avg-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.whoop-trend-chart-detailed {
+  flex: 1;
+  margin: 0 -8px;
+}
+
+.whoop-trend-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.whoop-trend-range {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.whoop-trend-click-hint {
+  font-size: 11px;
+  color: var(--third);
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.whoop-trend-card-detailed:hover .whoop-trend-click-hint {
+  opacity: 1;
+}
+
+/* Recharts custom styling for trend charts */
+.whoop-trend-chart-detailed .recharts-cartesian-grid-horizontal line {
+  stroke: rgba(255, 255, 255, 0.06);
+}
+
+.whoop-trend-chart-detailed .recharts-xaxis-tick text,
+.whoop-trend-chart-detailed .recharts-yaxis-tick text {
+  fill: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+}
+
+.whoop-trend-chart-detailed .recharts-reference-line-label {
+  font-size: 9px;
+}
+
+.whoop-trend-chart {
+  height: 80px;
+  margin: 0 -8px;
+}
+
+.whoop-trend-days {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.whoop-trend-day {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  opacity: 0.9;
+}
+
+.whoop-trend-bars {
+  display: flex;
+  gap: 6px;
+  height: 32px;
+  align-items: flex-end;
+  margin-top: 12px;
+}
+
+.whoop-trend-bar {
+  flex: 1;
+  min-height: 4px;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.3s ease;
+}
+
+/* Workout Mini Cards */
+.whoop-workouts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 700px) {
+  .whoop-workouts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.whoop-workout-mini {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.whoop-workout-mini-sport {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.whoop-workout-mini-strain {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.whoop-workout-mini-meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Responsive Adjustments for Detail Panel */
+@media (max-width: 700px) {
+  .whoop-detail-panel {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  
+  .whoop-detail-header h2 {
+    font-size: 20px;
+  }
+  
+  .whoop-detail-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .whoop-detail-list-stats {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  
+  .whoop-detail-stat {
+    font-size: 13px;
+  }
+  
+  .whoop-workouts-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .whoop-panel-main-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .whoop-mini-sparkline {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+/* Recharts Tooltip Customization */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-default-tooltip {
+  background-color: rgba(26, 26, 26, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Custom Scrollbar for Detail Panel */
+.whoop-panel-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.whoop-panel-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.whoop-panel-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.whoop-panel-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================
+   DATE NAVIGATOR STYLES
+   ========================================== */
+
+.whoop-date-navigator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.whoop-date-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--fg);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.whoop-date-nav-btn:hover:not(:disabled) {
+  background: rgba(114, 203, 255, 0.15);
+  border-color: var(--third);
+  color: var(--third);
+}
+
+.whoop-date-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.whoop-date-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 160px;
+}
+
+.whoop-date-display:hover {
+  background: rgba(114, 203, 255, 0.1);
+  border-color: var(--third);
+}
+
+.whoop-date-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.whoop-date-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.whoop-today-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--third), #5f9cd6);
+  border: none;
+  border-radius: 20px;
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.whoop-today-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(114, 203, 255, 0.3);
+}
+
+/* ==========================================
+   DATE PICKER MODAL STYLES
+   ========================================== */
+
+.whoop-date-picker-modal {
+  background: linear-gradient(145deg, rgba(30, 30, 35, 0.98), rgba(20, 20, 25, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.whoop-date-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.whoop-date-picker-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.whoop-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.whoop-weekday {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 0;
+}
+
+.whoop-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.whoop-calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 4px;
+}
+
+.whoop-calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.whoop-calendar-day:not(.empty):not(.future):not(.no-data):hover {
+  background: rgba(114, 203, 255, 0.15);
+  border-color: var(--third);
+}
+
+.whoop-calendar-day.selected {
+  background: var(--third);
+  border-color: var(--third);
+}
+
+.whoop-calendar-day.selected .whoop-day-number {
+  color: #000;
+  font-weight: 700;
+}
+
+.whoop-calendar-day.today {
+  border-color: var(--third);
+}
+
+.whoop-calendar-day.future,
+.whoop-calendar-day.no-data {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.whoop-day-number {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.whoop-day-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+.whoop-date-picker-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.whoop-date-picker-legend .whoop-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.whoop-date-picker-legend .whoop-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.whoop-date-picker-close {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.whoop-date-picker-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments for date navigator */
+@media (max-width: 500px) {
+  .whoop-date-navigator {
+    justify-content: center;
+  }
+  
+  .whoop-date-display {
+    min-width: 140px;
+    padding: 6px 16px;
+  }
+  
+  .whoop-date-label {
+    font-size: 16px;
+  }
+  
+  .whoop-date-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
   }
 }
