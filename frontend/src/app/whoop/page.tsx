@@ -1777,6 +1777,78 @@ export default function WhoopDashboard() {
     return () => document.removeEventListener('keydown', handleEscape);
   }, []);
 
+  // Auto-fetch more data when navigating to dates outside the loaded range
+  useEffect(() => {
+    // Skip if still loading initial data or no data loaded yet
+    if (loading || recoveryHistory.length === 0) return;
+    
+    const selectedDateStr = getDateString(selectedDate);
+    
+    // Find the oldest loaded date
+    const oldestLoadedDate = recoveryHistory.length > 0 
+      ? recoveryHistory[recoveryHistory.length - 1].date.split('T')[0]
+      : null;
+    
+    // Check if selected date is older than oldest loaded date
+    if (oldestLoadedDate && selectedDateStr < oldestLoadedDate) {
+      // Calculate how many days we need to load
+      const selectedMs = new Date(selectedDateStr).getTime();
+      const oldestMs = new Date(oldestLoadedDate).getTime();
+      const daysDiff = Math.ceil((oldestMs - selectedMs) / (1000 * 60 * 60 * 24));
+      
+      // Load enough days to cover the selected date plus buffer
+      const newDaysNeeded = recoveryDaysLoaded + daysDiff + 7;
+      
+      // Fetch more data for all data types
+      const fetchMoreData = async () => {
+        try {
+          const [recoveryRes, sleepRes, cyclesRes, workoutsRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/api/whoop/recovery?days=${newDaysNeeded}`),
+            fetch(`${API_BASE_URL}/api/whoop/sleep?days=${newDaysNeeded}`),
+            fetch(`${API_BASE_URL}/api/whoop/cycles?days=${newDaysNeeded}`),
+            fetch(`${API_BASE_URL}/api/whoop/workouts?days=${newDaysNeeded}`)
+          ]);
+          
+          if (recoveryRes.ok) {
+            const data = await recoveryRes.json();
+            if (data.length <= recoveryHistory.length) {
+              setNoMoreRecoveryData(true);
+            }
+            setRecoveryHistory(data);
+            setRecoveryDaysLoaded(newDaysNeeded);
+          }
+          
+          if (sleepRes.ok) {
+            const data = await sleepRes.json();
+            if (data.length <= sleepHistory.length) {
+              setNoMoreSleepData(true);
+            }
+            setSleepHistory(data);
+            setSleepDaysLoaded(newDaysNeeded);
+          }
+          
+          if (cyclesRes.ok) {
+            const data = await cyclesRes.json();
+            if (data.length <= cycles.length) {
+              setNoMoreStrainData(true);
+            }
+            setCycles(data);
+            setStrainDaysLoaded(newDaysNeeded);
+          }
+          
+          if (workoutsRes.ok) {
+            const data = await workoutsRes.json();
+            setWorkouts(data);
+          }
+        } catch (err) {
+          console.error('Failed to load more historical data:', err);
+        }
+      };
+      
+      fetchMoreData();
+    }
+  }, [selectedDate, loading, recoveryHistory, sleepHistory, cycles, recoveryDaysLoaded]);
+
   // Load more recovery data
   const loadMoreRecovery = async () => {
     if (noMoreRecoveryData) return;
