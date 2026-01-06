@@ -163,3 +163,4 @@ Thumbs.db
 # Documentation with sensitive information
 WHOOP_TOKEN_GUIDE.md
 API_Documentation.md
+whoop_get_new_refresh_token.py
