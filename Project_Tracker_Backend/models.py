@@ -206,3 +206,46 @@ class WhoopCycle(db.Model):
             'average_heart_rate': self.average_heart_rate,
             'max_heart_rate': self.max_heart_rate
         }
+
+
+class WhoopProfile(db.Model):
+    """Cached user profile from Whoop"""
+    __tablename__ = 'whoop_profile'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(50), unique=True)  # Whoop's user ID
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
+    email = db.Column(db.String(200))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    def to_dict(self):
+        return {
+            'user_id': self.user_id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }
+
+
+class WhoopSyncStatus(db.Model):
+    """Tracks the last sync status for Whoop data"""
+    __tablename__ = 'whoop_sync_status'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    last_sync_at = db.Column(db.DateTime)
+    last_sync_type = db.Column(db.String(50))  # 'startup', 'manual', 'scheduled', 'incremental'
+    records_synced = db.Column(db.Integer, default=0)
+    status = db.Column(db.String(20), default='pending')  # 'pending', 'running', 'completed', 'failed'
+    error_message = db.Column(db.Text)
+    
+    def to_dict(self):
+        return {
+            'last_sync_at': self.last_sync_at.isoformat() if self.last_sync_at else None,
+            'last_sync_type': self.last_sync_type,
+            'records_synced': self.records_synced,
+            'status': self.status,
+            'error_message': self.error_message
+        }
