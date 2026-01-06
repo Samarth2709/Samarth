@@ -1302,6 +1302,257 @@ function AuthErrorDisplay({
   );
 }
 
+// ==================== Profile Info ====================
+
+interface UserProfile {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+}
+
+// ==================== Metric Color Helper ====================
+
+// Smoothly interpolate along red -> yellow -> green spectrum (bright colors)
+function getMetricColors(metricType: 'sleep' | 'recovery' | 'strain', value: number | null, maxValue: number): { start: string; end: string } {
+  if (value === null) return { start: '#9ca3af', end: '#9ca3af' }; // Light gray for no data
+  
+  const percentage = Math.min(100, Math.max(0, (value / maxValue) * 100));
+  
+  // For strain: invert (low = good/green, high = bad/red)
+  // For sleep/recovery: normal (low = bad/red, high = good/green)
+  const normalizedValue = metricType === 'strain' ? (100 - percentage) : percentage;
+  
+  // Interpolate RGB values along the spectrum (BRIGHT colors):
+  // 0% = Bright Red (#ff4757), 50% = Bright Yellow (#ffd32a), 100% = Bright Green (#2ed573)
+  let r: number, g: number, b: number;
+  
+  if (normalizedValue <= 50) {
+    // Red to Yellow transition (0-50%)
+    const t = normalizedValue / 50;
+    // Bright red (#ff4757) -> Bright Yellow (#ffd32a)
+    r = Math.round(255 + (255 - 255) * t);  // 255 -> 255
+    g = Math.round(71 + (211 - 71) * t);    // 71 -> 211
+    b = Math.round(87 + (42 - 87) * t);     // 87 -> 42
+  } else {
+    // Yellow to Green transition (50-100%)
+    const t = (normalizedValue - 50) / 50;
+    // Bright Yellow (#ffd32a) -> Bright green (#2ed573)
+    r = Math.round(255 + (46 - 255) * t);   // 255 -> 46
+    g = Math.round(211 + (213 - 211) * t);  // 211 -> 213
+    b = Math.round(42 + (115 - 42) * t);    // 42 -> 115
+  }
+  
+  const color = `rgb(${r}, ${g}, ${b})`;
+  
+  // Return same color for start/end (solid color, no visible gradient on arc)
+  return { start: color, end: color };
+}
+
+// ==================== WHOOP-Style Circular Metric ====================
+
+function CircularMetric({ 
+  value, 
+  maxValue = 100, 
+  label, 
+  metricType,
+  onClick,
+  isPercentage = true,
+  size = 'normal'
+}: { 
+  value: number | null; 
+  maxValue?: number;
+  label: string; 
+  metricType: 'sleep' | 'recovery' | 'strain';
+  onClick?: () => void;
+  isPercentage?: boolean;
+  size?: 'normal' | 'large';
+}) {
+  const percentage = value !== null ? Math.min((value / maxValue) * 100, 100) : 0;
+  const radius = size === 'large' ? 70 : 60;
+  const strokeWidth = size === 'large' ? 8 : 7;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  const viewBoxSize = (radius + strokeWidth) * 2;
+  const center = viewBoxSize / 2;
+  
+  // Get dynamic colors based on metric quality
+  const colors = getMetricColors(metricType, value, maxValue);
+  const gradientId = `gradient-${metricType}-${Math.random().toString(36).substr(2, 9)}`;
+  
+  return (
+    <div 
+      className={`whoop-circular-metric ${size === 'large' ? 'whoop-circular-metric-large' : ''}`}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
+      <svg 
+        className="whoop-circular-svg" 
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+        style={{ width: size === 'large' ? '180px' : '150px', height: size === 'large' ? '180px' : '150px' }}
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={colors.start} stopOpacity="1" />
+            <stop offset="100%" stopColor={colors.end} stopOpacity="1" />
+          </linearGradient>
+        </defs>
+        {/* Background track */}
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke="rgba(255,255,255,0.1)"
+          strokeWidth={strokeWidth}
+        />
+        {/* Progress arc with gradient */}
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke={`url(#${gradientId})`}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          transform={`rotate(-90 ${center} ${center})`}
+          style={{ transition: 'stroke-dashoffset 1s ease-out' }}
+        />
+      </svg>
+      <div className="whoop-circular-content">
+        <div className="whoop-circular-value" style={{ color: colors.end }}>
+          {value !== null ? (isPercentage ? `${Math.round(value)}%` : value.toFixed(1)) : '—'}
+        </div>
+      </div>
+      <div className="whoop-circular-label">
+        {label} <span className="whoop-circular-arrow">›</span>
+      </div>
+    </div>
+  );
+}
+
+// ==================== WHOOP Header with Profile ====================
+
+function WhoopHeader({ 
+  selectedDate, 
+  onDateChange, 
+  availableDates,
+  onOpenCalendar,
+  userProfile,
+  onProfileClick,
+  showProfile,
+  onCloseProfile
+}: { 
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
+  availableDates: string[];
+  onOpenCalendar: () => void;
+  userProfile: UserProfile | null;
+  onProfileClick: () => void;
+  showProfile: boolean;
+  onCloseProfile: () => void;
+}) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const isToday = getDateString(selectedDate) === getDateString(today);
+  
+  // Find the oldest available date
+  const oldestDate = availableDates.length > 0 
+    ? new Date(availableDates[availableDates.length - 1]) 
+    : new Date(today.getTime() - 14 * 24 * 60 * 60 * 1000);
+  
+  const canGoForward = !isToday;
+  const canGoBack = getDateString(selectedDate) > getDateString(oldestDate);
+  
+  const goToPreviousDay = () => {
+    if (canGoBack) {
+      const newDate = new Date(selectedDate);
+      newDate.setDate(newDate.getDate() - 1);
+      onDateChange(newDate);
+    }
+  };
+  
+  const goToNextDay = () => {
+    if (canGoForward) {
+      const newDate = new Date(selectedDate);
+      newDate.setDate(newDate.getDate() + 1);
+      onDateChange(newDate);
+    }
+  };
+
+  const getDateDisplayText = () => {
+    if (isToday) return 'TODAY';
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (getDateString(selectedDate) === getDateString(yesterday)) return 'YESTERDAY';
+    return selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+  };
+
+  return (
+    <div className="whoop-app-header">
+      {/* Profile Icon */}
+      <div className="whoop-profile-section">
+        <button className="whoop-profile-btn" onClick={onProfileClick}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+          </svg>
+        </button>
+        
+        {/* Profile Dropdown */}
+        {showProfile && (
+          <>
+            <div className="whoop-profile-overlay" onClick={onCloseProfile} />
+            <div className="whoop-profile-dropdown">
+              <div className="whoop-profile-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+                </svg>
+              </div>
+              <div className="whoop-profile-info">
+                <div className="whoop-profile-name">
+                  {userProfile?.first_name || 'Samarth'} {userProfile?.last_name || 'Kumbla'}
+                </div>
+                {userProfile?.email && (
+                  <div className="whoop-profile-email">{userProfile.email}</div>
+                )}
+              </div>
+              <button className="whoop-profile-close" onClick={onCloseProfile}>×</button>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Date Navigator */}
+      <div className="whoop-date-nav-center">
+        <button 
+          className="whoop-date-arrow" 
+          onClick={goToPreviousDay}
+          disabled={!canGoBack}
+        >
+          ‹
+        </button>
+        <button className="whoop-date-pill" onClick={onOpenCalendar}>
+          {getDateDisplayText()}
+        </button>
+        <button 
+          className="whoop-date-arrow" 
+          onClick={goToNextDay}
+          disabled={!canGoForward}
+        >
+          ›
+        </button>
+      </div>
+
+      {/* Spacer for symmetry */}
+      <div className="whoop-header-spacer" />
+    </div>
+  );
+}
+
 // ==================== Main Dashboard ====================
 
 export default function WhoopDashboard() {
@@ -1314,7 +1565,6 @@ export default function WhoopDashboard() {
   const [metrics, setMetrics] = useState<AggregatedMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
   const [authErrorType, setAuthErrorType] = useState<AuthErrorType>(null);
   const [testingAuth, setTestingAuth] = useState(false);
@@ -1325,6 +1575,8 @@ export default function WhoopDashboard() {
     return today;
   });
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
   
   // State for "Show More" functionality
   const [recoveryDaysLoaded, setRecoveryDaysLoaded] = useState(14);
@@ -1416,7 +1668,8 @@ export default function WhoopDashboard() {
         sleepRes,
         workoutsRes,
         cyclesRes,
-        metricsRes
+        metricsRes,
+        profileRes
       ] = await Promise.all([
         fetch(`${API_BASE_URL}/api/whoop/recovery/latest`),
         fetch(`${API_BASE_URL}/api/whoop/sleep/latest`),
@@ -1424,7 +1677,8 @@ export default function WhoopDashboard() {
         fetch(`${API_BASE_URL}/api/whoop/sleep?days=14`),
         fetch(`${API_BASE_URL}/api/whoop/workouts?days=14`),
         fetch(`${API_BASE_URL}/api/whoop/cycles?days=14`),
-        fetch(`${API_BASE_URL}/api/whoop/metrics?days=30`)
+        fetch(`${API_BASE_URL}/api/whoop/metrics?days=30`),
+        fetch(`${API_BASE_URL}/api/whoop/profile`).catch(() => null)
       ]);
 
       const responses = [latestRecoveryRes, latestSleepRes, recoveryRes, sleepRes, workoutsRes, cyclesRes, metricsRes];
@@ -1472,6 +1726,12 @@ export default function WhoopDashboard() {
         setMetrics(await metricsRes.json());
       }
 
+      // Fetch user profile
+      if (profileRes && profileRes.ok) {
+        const profileData = await profileRes.json();
+        setUserProfile(profileData);
+      }
+
     } catch (err) {
       console.error('Error fetching Whoop data:', err);
       setError('Failed to load Whoop data. Make sure the backend is running.');
@@ -1481,8 +1741,31 @@ export default function WhoopDashboard() {
     }
   }, [checkAuthStatus]);
 
+  // On page load: refresh today's data from WHOOP API, then fetch from database
   useEffect(() => {
-    fetchData();
+    const initializeData = async () => {
+      try {
+        // First, trigger a quick refresh of today's data from WHOOP API
+        // This runs in the background and updates the database
+        fetch(`${API_BASE_URL}/api/whoop/refresh/today`, { method: 'POST' })
+          .then(() => {
+            // After refresh completes, re-fetch data to show any updates
+            // Only re-fetch if we're not already loading
+            console.log('Background refresh of today\'s data completed');
+          })
+          .catch(err => {
+            // Don't block on errors - cached data will be shown
+            console.log('Background refresh skipped:', err);
+          });
+        
+        // Immediately fetch cached data from database (don't wait for refresh)
+        await fetchData();
+      } catch (err) {
+        console.error('Error initializing data:', err);
+      }
+    };
+    
+    initializeData();
   }, [fetchData]);
 
   // Close panel on escape key
@@ -1493,34 +1776,6 @@ export default function WhoopDashboard() {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, []);
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/whoop/refresh`, { method: 'POST' });
-      
-      if (res.status === 401) {
-        setAuthErrorType('token_expired');
-        return;
-      }
-      
-      if (res.status === 400) {
-        const errorData = await res.json().catch(() => ({}));
-        if (errorData.error?.includes('not configured')) {
-          setAuthErrorType('not_configured');
-          return;
-        }
-      }
-      
-      if (!res.ok) throw new Error('Refresh failed');
-      await fetchData();
-    } catch (err) {
-      console.error('Refresh failed:', err);
-      alert('Failed to refresh Whoop data.');
-    } finally {
-      setRefreshing(false);
-    }
-  };
 
   // Load more recovery data
   const loadMoreRecovery = async () => {
@@ -1705,55 +1960,48 @@ export default function WhoopDashboard() {
         />
       )}
 
-      {/* Hero Section with Readiness */}
-      <section className="whoop-hero">
-        <div className="whoop-hero-content">
-          <div className="whoop-hero-left">
-            <DateNavigator
-              selectedDate={selectedDate}
-              onDateChange={setSelectedDate}
-              availableDates={availableDates}
-              onOpenCalendar={() => setShowDatePicker(true)}
-            />
-            <h1 className="whoop-readiness-title">
-              <span className="whoop-readiness-score" style={{ color: readinessStatus.color }}>
-                {readinessScore ?? '—'}
-              </span>
-              <span className="whoop-readiness-label">{readinessStatus.label}</span>
-            </h1>
-            <p className="whoop-readiness-description">
-              {!selectedRecovery && !selectedSleep 
-                ? "No data available for this day."
-                : readinessScore !== null && readinessScore >= 67 
-                ? isViewingToday 
-                  ? "Primed for peak performance"
-                  : "Primed for peak performance"
-                : readinessScore !== null && readinessScore >= 34
-                ? isViewingToday
-                  ? "Recovery in progress. Moderate activity recommended."
-                  : "Recovery mode"
-                : isViewingToday
-                  ? "Rest needed. Focus on recovery."
-                  : "Rest required"
-              }
-            </p>
-            {isViewingToday && (
-              <button 
-                className="whoop-refresh-btn" 
-                onClick={handleRefresh}
-                disabled={refreshing}
-              >
-                {refreshing ? 'Syncing...' : 'Sync Whoop Data'}
-              </button>
-            )}
-          </div>
-          <div className="whoop-hero-right">
-            <RecoveryRing 
-              score={selectedRecovery?.recovery_score ?? null}
-              status={selectedRecovery?.recovery_status ?? 'unknown'}
-            />
-          </div>
-        </div>
+      {/* WHOOP-Style App Header */}
+      <WhoopHeader 
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+        availableDates={availableDates}
+        onOpenCalendar={() => setShowDatePicker(true)}
+        userProfile={userProfile}
+        onProfileClick={() => setShowProfile(true)}
+        showProfile={showProfile}
+        onCloseProfile={() => setShowProfile(false)}
+      />
+
+      {/* WHOOP Brand Title */}
+      <div className="whoop-brand-title">WHOOP</div>
+
+      {/* Three Circular Metrics - WHOOP Style */}
+      <section className="whoop-metrics-circles">
+        <CircularMetric
+          value={selectedSleep?.sleep_performance ?? null}
+          maxValue={100}
+          label="SLEEP"
+          metricType="sleep"
+          onClick={() => setActivePanel('sleep')}
+          isPercentage={true}
+        />
+        <CircularMetric
+          value={selectedRecovery?.recovery_score ?? null}
+          maxValue={100}
+          label="RECOVERY"
+          metricType="recovery"
+          onClick={() => setActivePanel('recovery')}
+          isPercentage={true}
+          size="large"
+        />
+        <CircularMetric
+          value={selectedCycle?.strain ?? null}
+          maxValue={21}
+          label="STRAIN"
+          metricType="strain"
+          onClick={() => setActivePanel('strain')}
+          isPercentage={false}
+        />
       </section>
 
       {/* Primary Metrics Grid - Now Clickable! */}
