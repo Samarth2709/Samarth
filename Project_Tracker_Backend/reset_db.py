@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simple script to reset the local SQLite database.
-For production PostgreSQL, use Heroku commands or database management tools.
+For production PostgreSQL, use Railway CLI commands or database management tools.
 """
 
 import os
