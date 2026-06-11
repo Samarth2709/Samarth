@@ -25,21 +25,23 @@ export function buildStart(dateISO: string, time: string): Date {
   return new Date(y, m - 1, d, hh, mm, 0);
 }
 
-function buildDetails(activities: string[]): string {
-  return `can't wait! the plan: ${activities.join(", ")} 💗`;
+function buildDetails(activities: string[], dress?: string): string {
+  const dressPart = dress ? ` · dress code: ${dress}` : "";
+  return `can't wait! the plan: ${activities.join(", ")}${dressPart} 💗`;
 }
 
 export function buildGoogleUrl(
   dateISO: string,
   time: string,
-  activities: string[]
+  activities: string[],
+  dress?: string
 ): string {
   const start = buildStart(dateISO, time);
   const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: EVENT_TITLE,
-    details: buildDetails(activities),
+    details: buildDetails(activities, dress),
     add: OWNER_EMAIL,
   });
   // dates uses a structural "/" between start and end — append manually so
@@ -54,7 +56,8 @@ function escapeIcsText(text: string): string {
 export function buildIcs(
   dateISO: string,
   time: string,
-  activities: string[]
+  activities: string[],
+  dress?: string
 ): string {
   const start = buildStart(dateISO, time);
   const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
@@ -74,7 +77,7 @@ export function buildIcs(
     `DTSTART:${fmt(start)}`,
     `DTEND:${fmt(end)}`,
     `SUMMARY:${escapeIcsText(EVENT_TITLE)}`,
-    `DESCRIPTION:${escapeIcsText(buildDetails(activities))}`,
+    `DESCRIPTION:${escapeIcsText(buildDetails(activities, dress))}`,
     `ATTENDEE;CN=Samarth:mailto:${OWNER_EMAIL}`,
     "END:VEVENT",
     "END:VCALENDAR",
@@ -84,9 +87,10 @@ export function buildIcs(
 export function downloadIcs(
   dateISO: string,
   time: string,
-  activities: string[]
+  activities: string[],
+  dress?: string
 ): void {
-  const blob = new Blob([buildIcs(dateISO, time, activities)], {
+  const blob = new Blob([buildIcs(dateISO, time, activities, dress)], {
     type: "text/calendar;charset=utf-8",
   });
   const url = URL.createObjectURL(blob);
