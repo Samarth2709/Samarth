@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
         source: "/kalshi/:path*",
         destination: "https://kalshiai-samarth2709s-projects.vercel.app/kalshi/:path*",
       },
+      // All Doors Open — private (password-protected) site served by the
+      // alldoorsopen Vercel project under /alldoorsopen
+      {
+        source: "/alldoorsopen",
+        destination: "https://alldoorsopen.vercel.app/alldoorsopen",
+      },
+      {
+        source: "/alldoorsopen/:path*",
+        destination: "https://alldoorsopen.vercel.app/alldoorsopen/:path*",
+      },
     ];
   },
   async redirects() {
