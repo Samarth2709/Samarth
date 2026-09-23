@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 
-
 const nextConfig: NextConfig = {
   async rewrites() {
     // KalshiAI dashboard — served by the kalshiai Vercel project under /kalshi
@@ -35,3 +34,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    // legacy link from the Polymarket era
+    return [
+      { source: "/polymarket", destination: "/kalshi", permanent: false },
+      { source: "/polymarket/:path*", destination: "/kalshi/:path*", permanent: false },
+    ];
+  },
+};
+
+export default nextConfig;
