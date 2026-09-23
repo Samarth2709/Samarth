@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+
 const nextConfig: NextConfig = {
   async rewrites() {
     // KalshiAI dashboard — served by the kalshiai Vercel project under /kalshi
@@ -23,7 +24,7 @@ const nextConfig: NextConfig = {
         destination: "https://alldoorsopen.vercel.app/alldoorsopen/:path*",
       },
       // Rave Lights — controller hosted on the home Pi and exposed through an
-      // isolated Tailscale Funnel listener.
+      // isolated Tailscale Funnel listener; nested assets and APIs keep the prefix.
       {
         source: "/lights",
         destination: "https://home-pi.tail239537.ts.net:8443/lights",
@@ -34,13 +35,3 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    // legacy link from the Polymarket era
-    return [
-      { source: "/polymarket", destination: "/kalshi", permanent: false },
-      { source: "/polymarket/:path*", destination: "/kalshi/:path*", permanent: false },
-    ];
-  },
-};
-
-export default nextConfig;
