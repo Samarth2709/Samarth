@@ -22,6 +22,16 @@ const nextConfig: NextConfig = {
         source: "/alldoorsopen/:path*",
         destination: "https://alldoorsopen.vercel.app/alldoorsopen/:path*",
       },
+      // Rave Lights — controller hosted on the home Pi and exposed through an
+      // isolated Tailscale Funnel listener.
+      {
+        source: "/lights",
+        destination: "https://home-pi.tail239537.ts.net:8443/lights",
+      },
+      {
+        source: "/lights/:path*",
+        destination: "https://home-pi.tail239537.ts.net:8443/lights/:path*",
+      },
     ];
   },
   async redirects() {
