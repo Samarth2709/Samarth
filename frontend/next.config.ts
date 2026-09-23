@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
       // isolated Tailscale Funnel listener; nested assets and APIs keep the prefix.
       {
         source: "/lights",
-        destination: "https://home-pi.tail239537.ts.net:8443/lights",
+        destination: "https://home-pi.tail239537.ts.net:8443/lights/",
       },
       {
         source: "/lights/:path*",
