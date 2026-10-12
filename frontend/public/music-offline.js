@@ -1,5 +1,5 @@
 /* Public study assets only; no grading answers, credentials or private PDFs. */
-const CACHE='music-study-exam-v2';
+const CACHE='music-study-exam-v3';
 const APP='/music';
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.add(new Request(APP,{cache:'reload'}))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('music-study-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
