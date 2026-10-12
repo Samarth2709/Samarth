@@ -1,0 +1,215 @@
+{
+  "verified": "2026-10-12",
+  "examSource": "https://courseworks2.columbia.edu/courses/249492/files/28594169",
+  "coverage": {
+    "works": 5,
+    "exercises": 20,
+    "perWork": 4,
+    "vocabularyCards": 30,
+    "format": "3 excerpts, 2–3 minutes each; 200–225 words each; 60 minutes; 15 points",
+    "dimensions": [
+      "meter",
+      "texture",
+      "sonata exposition/development/recapitulation",
+      "text/music relation",
+      "strophic/through-composed",
+      "instrumentation and roles",
+      "major/minor",
+      "genre",
+      "drone",
+      "register",
+      "melismatic/syllabic",
+      "identity"
+    ]
+  },
+  "works": [
+    {
+      "id": "era",
+      "work": "Monteverdi, Era l’anima mia (1605)",
+      "video": "FlVQdmGLJR8",
+      "source": "Renaissance Music 2 pp. 1–2; exam guide p. 1"
+    },
+    {
+      "id": "lagrime",
+      "work": "Strozzi, Lagrime mie (1659)",
+      "video": "1z2xtmkqaAs",
+      "source": "Baroque Music 2 pp. 1–4; exam guide p. 1"
+    },
+    {
+      "id": "bach",
+      "work": "Bach, Brandenburg Concerto no. 5, movement 1 (1721)",
+      "video": "LHjbRMIIhuM",
+      "source": "Baroque Music 3 pp. 1–2; exam guide p. 2"
+    },
+    {
+      "id": "mozart-concerto",
+      "work": "Mozart, Piano Concerto no. 20 in D minor, movement 1 (1785)",
+      "video": "VSfnid4FNzc",
+      "source": "Classical Music 1; exam guide pp. 1–2"
+    },
+    {
+      "id": "beethoven",
+      "work": "Beethoven, Symphony no. 5 in C minor, movement 1 (1808)",
+      "video": "n3EiRynr1Us",
+      "source": "Classical Music 4 pp. 1–2; exam guide pp. 1–2"
+    }
+  ],
+  "drills": [
+    {
+      "id": "exam-era-01",
+      "workId": "era",
+      "start": 0,
+      "end": 45,
+      "focus": "texture"
+    },
+    {
+      "id": "exam-era-02",
+      "workId": "era",
+      "start": 45,
+      "end": 95,
+      "focus": "register"
+    },
+    {
+      "id": "exam-era-03",
+      "workId": "era",
+      "start": 95,
+      "end": 150,
+      "focus": "word painting"
+    },
+    {
+      "id": "exam-era-04",
+      "workId": "era",
+      "start": 150,
+      "end": 210,
+      "focus": "madrigal / through-composed"
+    },
+    {
+      "id": "exam-lagrime-05",
+      "workId": "lagrime",
+      "start": 0,
+      "end": 45,
+      "focus": "homophony / continuo"
+    },
+    {
+      "id": "exam-lagrime-06",
+      "workId": "lagrime",
+      "start": 50,
+      "end": 110,
+      "focus": "melisma / syllabic"
+    },
+    {
+      "id": "exam-lagrime-07",
+      "workId": "lagrime",
+      "start": 130,
+      "end": 185,
+      "focus": "meter / expression"
+    },
+    {
+      "id": "exam-lagrime-08",
+      "workId": "lagrime",
+      "start": 205,
+      "end": 263,
+      "focus": "cantata / through-composed"
+    },
+    {
+      "id": "exam-bach-09",
+      "workId": "bach",
+      "start": 15,
+      "end": 80,
+      "focus": "concerto grosso"
+    },
+    {
+      "id": "exam-bach-10",
+      "workId": "bach",
+      "start": 150,
+      "end": 210,
+      "focus": "timbre"
+    },
+    {
+      "id": "exam-bach-11",
+      "workId": "bach",
+      "start": 280,
+      "end": 350,
+      "focus": "continuo"
+    },
+    {
+      "id": "exam-bach-12",
+      "workId": "bach",
+      "start": 420,
+      "end": 480,
+      "focus": "duple meter / virtuosity"
+    },
+    {
+      "id": "exam-mozart-concerto-13",
+      "workId": "mozart-concerto",
+      "start": 40,
+      "end": 100,
+      "focus": "solo concerto"
+    },
+    {
+      "id": "exam-mozart-concerto-14",
+      "workId": "mozart-concerto",
+      "start": 210,
+      "end": 270,
+      "focus": "solo / ensemble"
+    },
+    {
+      "id": "exam-mozart-concerto-15",
+      "workId": "mozart-concerto",
+      "start": 500,
+      "end": 560,
+      "focus": "sonata form"
+    },
+    {
+      "id": "exam-mozart-concerto-16",
+      "workId": "mozart-concerto",
+      "start": 760,
+      "end": 840,
+      "focus": "cadenza"
+    },
+    {
+      "id": "exam-beethoven-17",
+      "workId": "beethoven",
+      "start": 0,
+      "end": 45,
+      "focus": "motif / rhythm"
+    },
+    {
+      "id": "exam-beethoven-18",
+      "workId": "beethoven",
+      "start": 45,
+      "end": 100,
+      "focus": "texture / instrumentation"
+    },
+    {
+      "id": "exam-beethoven-19",
+      "workId": "beethoven",
+      "start": 160,
+      "end": 215,
+      "focus": "exposition / recapitulation"
+    },
+    {
+      "id": "exam-beethoven-20",
+      "workId": "beethoven",
+      "start": 300,
+      "end": 365,
+      "focus": "major / minor"
+    }
+  ],
+  "movementBoundaries": {
+    "bach": {
+      "first": 0,
+      "second": 612
+    },
+    "mozart": {
+      "first": 31,
+      "second": 910
+    },
+    "beethoven": "Official first-movement-only upload"
+  },
+  "limitations": [
+    "All 20 windows streamed and sought successfully on Mini; exact musical cues were not independently audibly reviewed. Concept rubrics avoid unsupported formal-location claims.",
+    "Official alternative performances; handout timings and cadenza authorship do not automatically transfer.",
+    "AI backend is not activated; secured integration tests remain pending."
+  ]
+}
